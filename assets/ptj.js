@@ -177,3 +177,20 @@ themeButton.addEventListener("click", () => {
   localStorage.setItem("selected-theme", getCurrentTheme());
   localStorage.setItem("selected-icon", getCurrentIcon());
 });
+
+// ===========================SEND MAIL==================================
+document.getElementById('send-mail').addEventListener('click', function (e) {
+  e.preventDefault();
+
+  const name = document.getElementById('name').value;
+  const message = document.getElementById('message').value;
+
+  const subject = `Portfolio Website: Message from ${name}`;
+  const body = message;
+
+  // Update the href attribute with mailto
+  const mailtoLink = `mailto:adan.khan8@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+  // Set the href and then simulate a click to open the mail client
+  window.location.href = mailtoLink;
+});
