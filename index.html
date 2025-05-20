@@ -575,6 +575,12 @@
       </section>
     </main>
 
+    <div id="visit-counter-trigger" class="visit-counter-container">
+      <div class="flap" id="flap">
+        Visitors : <span id="visit-count">Loading...</span>
+        </div>
+    </div>
+
     <!--================== Footer ===============-->
     <footer class="footer">
       <div class="footer__bg">
@@ -627,6 +633,37 @@
 
     <script type="text/javascript" src="assets/swiper-bundle.min.js"></script>
     <script src="https://kit.fontawesome.com/2205d59d52.js" crossorigin="anonymous"></script>
-    <script src="assets/ptj.js"></script>
+    <script src="assets/ptj.js"></script>   
+    <script>
+      const flap = document.getElementById('flap');
+      const count = document.getElementById('visit-count');
+      const observerTarget = document.getElementById('visit-counter-trigger');
+    
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            fetch('https://api.counterapi.dev/v1/adanportfolio/visits/up')
+              .then(response => response.json())
+              .then(data => {
+                count.textContent = data.count;
+                flap.style.transform = 'rotateX(0deg)';
+                flap.style.opacity = '1';
+              })
+              .catch(error => {
+                console.error('Visit counter error:', error);
+                count.textContent = 'Unavailable';
+              });
+    
+            // Stop observing after the animation is triggered
+            observer.unobserve(observerTarget);
+          }
+        });
+      }, {
+        threshold: 0.5  // Trigger when 50% of element is in view
+      });
+    
+      observer.observe(observerTarget);
+    </script>
+    
   </body>
 </html>
