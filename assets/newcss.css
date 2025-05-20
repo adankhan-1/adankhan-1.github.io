@@ -1163,3 +1163,25 @@ img {
     bottom: -4.5rem;
   }
 }
+
+.visit-counter-container {
+  text-align: center;
+  margin: 2rem 0;
+  font-size: var(--h3-font-size);
+  font-weight: var(--font-medium);
+  color: var(--text-color);
+}
+
+.flap {
+  background-color: #222;
+  color: #fff;
+  font-size: 1.5rem;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  transform: rotateX(90deg);
+  transform-origin: top;
+  opacity: 0;
+  transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
