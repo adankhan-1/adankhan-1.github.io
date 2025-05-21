@@ -633,36 +633,58 @@
 
     <script type="text/javascript" src="assets/swiper-bundle.min.js"></script>
     <script src="https://kit.fontawesome.com/2205d59d52.js" crossorigin="anonymous"></script>
-    <script src="assets/ptj.js"></script>   
-    <script>
-      const flap = document.getElementById('flap');
-      const count = document.getElementById('visit-count');
-      const observerTarget = document.getElementById('visit-counter-trigger');
+    <script src="assets/ptj.js"></script>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        onValue,
+        runTransaction,
+      } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
     
-      const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            fetch('https://api.counterapi.dev/v1/adanportfolio/visits/up')
-              .then(response => response.json())
-              .then(data => {
-                count.textContent = data.count;
-                flap.style.transform = 'rotateX(0deg)';
-                flap.style.opacity = '1';
-              })
-              .catch(error => {
-                console.error('Visit counter error:', error);
-                count.textContent = 'Unavailable';
-              });
+      const firebaseConfig = {
+        apiKey: "AIzaSyC88abqgAHSenOYbkAFtwnK3tfj-CfOz7M",
+        authDomain: "adan-portfolio.firebaseapp.com",
+        databaseURL: "https://adan-portfolio-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "adan-portfolio",
+        storageBucket: "adan-portfolio.appspot.com",
+        messagingSenderId: "588637039526",
+        appId: "1:588637039526:web:b5e4b7ca8611ea208ffd67",
+        measurementId: "G-8NEKFJRLCN"
+      };
     
-            // Stop observing after the animation is triggered
-            observer.unobserve(observerTarget);
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(app);
+      const countRef = ref(db, 'visitorCount');
+    
+      const visitCountEl = document.getElementById("visit-count");
+      const flap = document.getElementById("flap");
+    
+      let hasAnimated = false;
+    
+      // First increment the count
+      runTransaction(countRef, (current) => {
+        return (current || 0) + 1;
+      }).then(() => {
+        // After successful increment, listen for the new value
+        onValue(countRef, (snapshot) => {
+          const count = snapshot.val();
+          if (count !== null) {
+            visitCountEl.innerText = count;
+    
+            if (!hasAnimated) {
+              hasAnimated = true;
+              flap.style.transform = "rotateX(0deg)";
+              flap.style.opacity = "1";
+            }
           }
         });
-      }, {
-        threshold: 0.5  // Trigger when 50% of element is in view
+      }).catch((err) => {
+        console.error("Transaction failed:", err);
+        visitCountEl.innerText = "Error";
       });
-    
-      observer.observe(observerTarget);
     </script>
     
   </body>
