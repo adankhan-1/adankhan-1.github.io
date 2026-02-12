@@ -125,7 +125,8 @@
                 Software Developer
               </h3>
               <p class="home__description">
-                I am a passionate software developer with a love for coding and algorithms.<br>
+                A passionate software developer who loves turning ideas into fast, scalable products.
+                <br>
                 Hails from<strong> Agra, India</strong>
               </p>
               <a href="#contact" class="button button--flex">
@@ -151,11 +152,11 @@
         <span class="section__subtitle">My introduction</span>
 
         <div class="about__container container grid">
-          <img src="assets\img\about.jpg" alt="" class="about__img" />
+          <img src="assets\img\about.png" alt="" class="about__img" />
 
           <div class="about__data">
             <p class="about__description">
-              I'm a 3+ years experienced Nodejs developer, passionate about technology and an avid reader. I have a self-motivated and can-do attitude, thriving in challenging and dynamic environments. Always seeking to enhance my skills and contribute to a project or organization. I'm very much passionate to learn new stuff that interests me and can help me to get better.
+              For <span id="expYears"></span> years, I’ve been living in the world of Node.js - building APIs, chasing performance, and occasionally arguing with production bugs at 2 AM. I enjoy challenges, fast-moving teams, and learning something new every day.
             </p>
 
 
@@ -312,6 +313,13 @@
                 <div class="skills__data">
                   <div class="skills__titles">
                     <h3 class="skills__name">GraphQL</h3>
+                  </div>
+                  
+                </div>
+
+                <div class="skills__data">
+                  <div class="skills__titles">
+                    <h3 class="skills__name">Redis</h3>
                   </div>
                   
                 </div>
@@ -622,7 +630,7 @@
           </div>
         </div>
 
-        <p class="footer__copy">&#169; Adan. All rights reserved.</p>
+        <p class="footer__copy">Copyright ©<span id="currentYear"></span> Adan Khan | All rights reserved.</p>
       </div>
     </footer>
 
@@ -685,6 +693,25 @@
         console.error("Transaction failed:", err);
         visitCountEl.innerText = "Error";
       });
+    </script>
+
+    <script>
+      const startDate = new Date("2021-08-01");
+      const today = new Date();
+
+      const totalMonths =
+        (today.getFullYear() - startDate.getFullYear()) * 12 +
+        (today.getMonth() - startDate.getMonth());
+
+      const years = Math.floor(totalMonths / 12);
+
+      document.getElementById("expYears").textContent = years + "+";
+    </script>
+
+    <script>
+      const year = (new Date()).getFullYear();
+
+      document.getElementById("currentYear").textContent = year;
     </script>
     
   </body>
